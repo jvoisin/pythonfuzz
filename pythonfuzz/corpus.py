@@ -289,7 +289,7 @@ class MutatorReplaceByte(Mutator):
         if len(res) == 0:
             return None
         pos = self._rand(len(res))
-        res[pos] = numpy.uint8(INTERESTING8[self._rand(len(INTERESTING8))])
+        res[pos] = numpy.uint8(random.choice(INTERESTING8))
         return res
 
 
@@ -302,7 +302,7 @@ class MutatorReplaceShort(Mutator):
         if len(res) < 2:
             return None
         pos = self._rand(len(res) - 1)
-        v = numpy.uint16(INTERESTING16[self._rand(len(INTERESTING16))])
+        v = numpy.uint16(random.choice(INTERESTING16))
         if bool(random.getrandbits(1)):
             v = struct.pack('>H', v)
         else:
@@ -322,7 +322,7 @@ class MutatorReplaceLong(Mutator):
         if len(res) < 4:
             return None
         pos = self._rand(len(res) - 3)
-        v = numpy.uint32(INTERESTING32[self._rand(len(INTERESTING32))])
+        v = numpy.uint32(random.choice(INTERESTING32))
         if bool(random.getrandbits(1)):
             v = struct.pack('>I', v)
         else:
@@ -345,12 +345,12 @@ class MutatorReplaceDigit(Mutator):
                 digits.append(k)
         if len(digits) == 0:
             return None
-        pos = self._rand(len(digits))
-        was = res[digits[pos]]
+        pos = random.choice(digits)
+        was = res[pos]
         now = was
         while was == now:
             now = self._rand(10) + ord('0')
-        res[digits[pos]] = now
+        res[pos] = now
         return res
 
 
@@ -452,12 +452,6 @@ class Corpus(object):
     def length(self):
         return len(self._inputs)
 
-    @staticmethod
-    def _rand(n):
-        if n == 1 or n == 0:
-            return 0
-        return random.randint(0, n-1)
-
     # Exp2 generates n with probability 1/2^(n+1).
     @staticmethod
     def _rand_exp():
@@ -493,7 +487,7 @@ class Corpus(object):
             self.put(zero_test_case)
             return zero_test_case
         else:
-            buf = self._inputs[self._rand(len(self._inputs))]
+            buf = random.choice(self._inputs)
             return self.mutate(buf)
 
     def mutate(self, buf):
@@ -506,8 +500,7 @@ class Corpus(object):
             # We'll try up to 20 times, but if we don't find a
             # suitable mutator after that, we'll just give up.
             for n in range(20):
-                x = self._rand(len(self.mutators))
-                mutator = self.mutators[x]
+                mutator = random.choice(self.mutators)
 
                 #print("Mutate with {}".format(mutator.__class__.__name__))
                 newres = mutator.mutate(res)
