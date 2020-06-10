@@ -37,7 +37,7 @@ def worker(target, child_conn, close_fd_mask):
 
     sys.settrace(tracer.trace)
     while True:
-        buf = child_conn.recv_bytes()
+        buf = child_conn._recv_bytes().getvalue()
         try:
             target(buf)
         except Exception as e:
@@ -46,7 +46,7 @@ def worker(target, child_conn, close_fd_mask):
             child_conn.send(e)
             break
         else:
-            child_conn.send_bytes(b'%d' % tracer.get_coverage())
+            child_conn._send_bytes(b'%d' % tracer.get_coverage())
 
 
 class Fuzzer(object):
@@ -127,7 +127,7 @@ class Fuzzer(object):
                 break
 
             buf = self._corpus.generate_input()
-            parent_conn.send_bytes(bytes(buf))
+            parent_conn._send_bytes(bytes(buf))
             if not parent_conn.poll(self._timeout):
                 self._p.terminate()
                 logging.info("=================================================================")
@@ -136,7 +136,7 @@ class Fuzzer(object):
                 break
 
             try:
-                total_coverage = int(parent_conn.recv_bytes())
+                total_coverage = int(parent_conn._recv_bytes().getvalue())
             except ValueError:
                 self.write_sample(buf)
                 break
