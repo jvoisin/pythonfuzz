@@ -107,8 +107,9 @@ any unnecessary work is done.
 
 ## Trophies
 
-* [python built-in HTMLParser - unhandled exception](https://bugs.python.org/msg355287)
+* [python built-in HTMLParser - unhandled exception](https://bugs.python.org/msg355287), [twice](https://bugs.launchpad.net/beautifulsoup/+bug/1883104)
 * [CleverCSV - unhandled exceptions](https://github.com/alan-turing-institute/CleverCSV/issues/7)
-* [Mutagen - unhandled exceptions and timeouts]( https://github.com/quodlibet/mutagen/issues?q=+is%3Aissue+author%3Ajvoisin+ ) 
+* [Mutagen - unhandled exceptions and timeouts]( https://github.com/quodlibet/mutagen/issues?q=+is%3Aissue+author%3Ajvoisin+ )
+* [beautifulsoup](https://bugs.launchpad.net/beautifulsoup/+bug/1883264)
 
 **Feel free to add bugs that you found with pythonfuzz to this list via pull-request**
