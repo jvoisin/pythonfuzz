@@ -452,12 +452,6 @@ class Corpus(object):
     def length(self):
         return len(self._inputs)
 
-    @staticmethod
-    def _rand(n):
-        if n == 1 or n == 0:
-            return 0
-        return random.randint(0, n-1)
-
     # Exp2 generates n with probability 1/2^(n+1).
     @staticmethod
     def _rand_exp():
@@ -488,7 +482,7 @@ class Corpus(object):
                 self._seed_run_finished = True
             return next_input
 
-        buf = self._inputs[self._rand(len(self._inputs))]
+        buf = random.choice(self._inputs)
         return self.mutate(buf)
 
     def mutate(self, buf):
@@ -501,8 +495,7 @@ class Corpus(object):
             # We'll try up to 20 times, but if we don't find a
             # suitable mutator after that, we'll just give up.
             for n in range(20):
-                x = self._rand(len(self.mutators))
-                mutator = self.mutators[x]
+                mutator = random.choice(self.mutators)
 
                 #print("Mutate with {}".format(mutator.__class__.__name__))
                 newres = mutator.mutate(res)
