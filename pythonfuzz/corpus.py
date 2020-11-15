@@ -286,8 +286,7 @@ class MutatorReplaceByte(Mutator):
     def mutate(self, res):
         if len(res) == 0:
             return None
-        pos = self._rand(len(res))
-        res[pos] = INTERESTING8[self._rand(len(INTERESTING8))] % 256
+        res[self._rand(len(res))] = random.choice(INTERESTING8)
         return res
 
 
