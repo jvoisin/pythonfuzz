@@ -21,7 +21,7 @@ def register_mutator(cls):
     return cls
 
 
-class Mutator(object):
+class Mutator:
     """
     Base class for all mutators.
 
